@@ -17,6 +17,18 @@ class FrontController
             'get'
         );
 
+         Route::add(
+             '/xogadores/([0-9]{5})',
+             fn($numeroLicencia) =>(new XogadoresController())->getByNumeroLicencia((int)$numeroLicencia),
+             'get'
+         );
+
+        Route::add(
+            '/xogadores/([0-9]{5})',
+            fn($numeroLicencia) =>(new XogadoresController())->deleteXogador((int)$numeroLicencia),
+            'get'
+        );
+
         Route::pathNotFound(
             function () {
                 (new ErrorController(404))->showError();

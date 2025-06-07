@@ -101,6 +101,22 @@ class XogadoresModel extends \Com\Daw2\Core\BaseDbModel
         return $stmt->fetchAll();
     }
 
+    public function getByNumeroLicencia(int $numeroLicencia):array | false
+    {
+            $sql = " SELECT * FROM xogador WHERE numero_licencia = :numero_licencia ";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute(['numero_licencia' => $numeroLicencia]);
+            return $stmt->fetch();
+    }
+
+    public function deleteByNumeroLicencia(int $numeroLicencia):bool
+    {
+        $sql = " DELETE FROM xogador WHERE numero_licencia = :numero_licencia ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['numero_licencia' => $numeroLicencia]);
+        return $stmt->rowCount() > 0;
+    }
+
     public function numeroRegistros(): int
     {
         $sql = "SELECT COUNT(*) FROM xogador x LEFT JOIN equipo e on e.codigo  = x.codigo_equipo ";

@@ -20,4 +20,30 @@ class XogadoresController extends BaseController
         }
         $this->view->show('json.view.php', ['respuesta' => $respuesta]);
     }
+
+    public function getByNumeroLicencia(int $numeroLicencia):void
+    {
+        $modelo = new XogadoresModel();
+
+        $xogador = $modelo->getByNumeroLicencia($numeroLicencia);
+
+        if  ($xogador !== false){
+            $respuesta = new Respuesta(200,$xogador);
+        }else{
+            $respuesta = new Respuesta(404,['Error'=> 'no existe el jugador']);
+        }
+
+        $this->view->show('json.view.php', ['respuesta' => $respuesta]);
+    }
+
+    public function deleteXogador(int $numeroLicencia):void
+    {
+        $modelo = new XogadoresModel();
+
+        $borrado = $modelo->deleteByNumeroLicencia($numeroLicencia);
+
+
+        $this->view->show('json.view.php', ['respuesta' => $respuesta]);
+    }
+
 }
