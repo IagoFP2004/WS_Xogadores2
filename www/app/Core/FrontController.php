@@ -26,7 +26,13 @@ class FrontController
         Route::add(
             '/xogadores/([0-9]{5})',
             fn($numeroLicencia) =>(new XogadoresController())->deleteXogador((int)$numeroLicencia),
-            'get'
+            'delete'
+        );
+
+        Route::add(
+            '/xogadores/([0-9]{5})',
+            fn($numeroLicencia) =>(new XogadoresController())->updateXogador((int)$numeroLicencia),
+            'patch'
         );
 
         Route::pathNotFound(

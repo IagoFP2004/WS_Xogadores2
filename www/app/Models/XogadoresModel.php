@@ -88,7 +88,7 @@ class XogadoresModel extends \Com\Daw2\Core\BaseDbModel
 
 
 
-        $sql = "SELECT x.numero_licencia,x.codigo_equipo ,e.nome_equipo,x.nome,x.estatura,x.data_nacemento  
+        $sql = "SELECT x.numero_licencia,x.codigo_equipo ,x.numero , x.nome , x.posicion ,x.nacionalidade , x.ficha , x.estatura , x.data_nacemento , x.temporadas  
                 FROM xogador x 
                 LEFT JOIN equipo e on e.codigo  = x.codigo_equipo ";
         if (!empty($condiciones)){
@@ -115,6 +115,29 @@ class XogadoresModel extends \Com\Daw2\Core\BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['numero_licencia' => $numeroLicencia]);
         return $stmt->rowCount() > 0;
+    }
+
+    public function updateXogador(array $data, int $numeroLicencia):bool
+    {
+        if (!empty($data)){
+            $sql = " UPDATE xogador SET ";
+            $campos = [];
+            foreach ($data as $campo => $value) {
+                $campos[] = " $campo = :$campo ";
+            }
+
+            if (empty($campos)) {
+                return false;
+            }
+
+            $sql .= implode(', ',$campos);
+            $sql .= " WHERE numero_licencia = :numero_licencia ";
+            $data['numero_licencia'] = $numeroLicencia;
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($data);
+        }else{
+            return false;
+        }
     }
 
     public function numeroRegistros(): int
