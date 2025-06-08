@@ -13,4 +13,11 @@ class UsersModel extends BaseDbModel
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
     }
+
+    public function updatePassword(string $email, string $newPassword): bool
+    {
+        $sql = "UPDATE users SET password = :password WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['password' => password_hash($newPassword, PASSWORD_DEFAULT), 'email' => $email]);
+    }
 }

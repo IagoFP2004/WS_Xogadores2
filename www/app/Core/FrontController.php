@@ -38,6 +38,18 @@ class FrontController
         );
 
         Route::add(
+            '/change-password',
+            function (){
+                if (self::$jwtData !== null){
+                    (new UsersController())->changePassword((string)self::$jwtData['email']);
+                }else{
+                    http_response_code(403);
+                }
+            },
+            'put'
+        );
+
+        Route::add(
             '/xogadores',
             function (){
                 if (str_contains(self::$permisos['xogadores'],'r')){
